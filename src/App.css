@@ -1,38 +1,88 @@
 .App {
+  background-color: #313847;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter {
+  width: 300px;
+  border: 2px solid rgb(118, 190, 238);
+  color: rgb(118, 190, 238);
+  border-radius: 4px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.counter-table {
+  border: 2px solid rgb(118, 190, 238);
+  padding: 0.75rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: 4px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.counter-table label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.counter-table input {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.counter-table input.error {
+  border: 1px solid red;
+  background-color: rgb(242, 145, 145);
+  outline: 1px solid red;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.counter-table span {
+  font-size: 4rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.counter-table p {
+  font-size: 1.25rem;
+}
+
+.buttons {
+  border-radius: 4px;
+  border: 2px solid rgb(118, 190, 238);
+  padding: 0.75rem;
+  text-align: center;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 1rem;
 }
 
-.App-link {
-  color: #61dafb;
+button {
+  border: 0;
+  padding: 0.5rem;
+  background-color: rgb(118, 190, 238);
+  color: #313847;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:hover {
+  background-color: rgb(133, 199, 243);
+}
+
+button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.error {
+  color: rgb(141, 37, 37);
 }
