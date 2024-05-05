@@ -12,6 +12,7 @@ import {
   maxValueChanged,
   startValueChanged,
 } from "./store/counter-store";
+import Input from "./Input";
 
 export default function CounterSettings() {
   const [startValue, onChangeStartValue] = useUnit([
@@ -37,30 +38,27 @@ export default function CounterSettings() {
   return (
     <div className="counter">
       <div className="counter-table">
-        <label>
-          max value:
-          <input
-            className={!isMaxValueValid || !isMaxGreaterStart ? "error" : ""}
-            type="number"
-            value={maxValue}
-            name="maxValue"
-            onChange={(event) =>
-              onChangeMaxValue(Number(event.currentTarget.value))
-            }
-          />
-        </label>
-        <label>
-          start value:
-          <input
-            className={!isStartValueValid || !isMaxGreaterStart ? "error" : ""}
-            type="number"
-            value={startValue}
-            name="startValue"
-            onChange={(event) =>
-              onChangeStartValue(Number(event.currentTarget.value))
-            }
-          />
-        </label>
+        <Input
+          label="max value:"
+          className={!isMaxValueValid || !isMaxGreaterStart ? "error" : ""}
+          type="number"
+          value={maxValue}
+          name="maxValue"
+          onChange={(event) =>
+            onChangeMaxValue(Number(event.currentTarget.value))
+          }
+        />
+
+        <Input
+          label="start value:"
+          className={!isStartValueValid || !isMaxGreaterStart ? "error" : ""}
+          type="number"
+          value={startValue}
+          name="startValue"
+          onChange={(event) =>
+            onChangeStartValue(Number(event.currentTarget.value))
+          }
+        />
       </div>
       <div className="buttons">
         <Button disabled={isError} onClick={handleChangeIsSetupping}>
