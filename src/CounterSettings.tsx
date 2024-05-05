@@ -1,24 +1,38 @@
-import { ChangeEvent } from "react";
+import { useUnit } from "effector-react";
 import Button from "./Button";
+import {
+  $isError,
+  $isMaxGreaterStart,
+  $isMaxValueValid,
+  $isStartValueValid,
+  $maxValue,
+  $startValue,
+  counterReseted,
+  isSetuppingChanged,
+  maxValueChanged,
+  startValueChanged,
+} from "./store/counter-store";
 
-type CounterSettingsProps = {
-  startValue: number;
-  maxValue: number;
-  onSetupping: () => void;
-  onChangeSettings: (event: ChangeEvent<HTMLInputElement>) => void;
-};
+export default function CounterSettings() {
+  const [startValue, onChangeStartValue] = useUnit([
+    $startValue,
+    startValueChanged,
+  ]);
+  const [maxValue, onChangeMaxValue] = useUnit([$maxValue, maxValueChanged]);
+  const [onSetupping] = useUnit([isSetuppingChanged]);
+  const [onReset] = useUnit([counterReseted]);
+  const [isMaxGreaterStart, isMaxValueValid, isStartValueValid, isError] =
+    useUnit([
+      $isMaxGreaterStart,
+      $isMaxValueValid,
+      $isStartValueValid,
+      $isError,
+    ]);
 
-export default function CounterSettings({
-  startValue,
-  maxValue,
-  onSetupping,
-  onChangeSettings,
-}: CounterSettingsProps) {
-  const isStartValueValid = startValue >= 0;
-  const isMaxValueValid = maxValue >= 0;
-  const isMaxGreaterStart = maxValue > startValue;
-
-  const isError = !isStartValueValid || !isMaxValueValid || !isMaxGreaterStart;
+  const handleChangeIsSetupping = () => {
+    onReset(startValue);
+    onSetupping(false);
+  };
 
   return (
     <div className="counter">
@@ -30,7 +44,9 @@ export default function CounterSettings({
             type="number"
             value={maxValue}
             name="maxValue"
-            onChange={onChangeSettings}
+            onChange={(event) =>
+              onChangeMaxValue(Number(event.currentTarget.value))
+            }
           />
         </label>
         <label>
@@ -40,12 +56,14 @@ export default function CounterSettings({
             type="number"
             value={startValue}
             name="startValue"
-            onChange={onChangeSettings}
+            onChange={(event) =>
+              onChangeStartValue(Number(event.currentTarget.value))
+            }
           />
         </label>
       </div>
       <div className="buttons">
-        <Button disabled={isError} onClick={onSetupping}>
+        <Button disabled={isError} onClick={handleChangeIsSetupping}>
           set
         </Button>
       </div>

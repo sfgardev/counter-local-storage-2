@@ -1,33 +1,36 @@
-import { useState } from "react";
+import { useUnit } from "effector-react";
 import Button from "./Button";
+import {
+  $counter,
+  $maxValue,
+  $startValue,
+  counterIncremented,
+  counterReseted,
+  isSetuppingChanged,
+} from "./store/counter-store";
 
-type CounterProps = {
-  maxValue: number;
-  startValue: number;
-  onSetupping: () => void;
-};
+export default function Counter() {
+  const [counter, onIncrement, onReset] = useUnit([
+    $counter,
+    counterIncremented,
+    counterReseted,
+  ]);
+  const [maxValue] = useUnit([$maxValue]);
+  const [startValue] = useUnit([$startValue]);
+  const [onSetupping] = useUnit([isSetuppingChanged]);
 
-export default function Counter({
-  maxValue,
-  startValue,
-  onSetupping,
-}: CounterProps) {
-  const [count, setCount] = useState(startValue);
+  const isCounterEqualsMaxValue = counter === maxValue;
 
-  const isCounterEqualsMaxValue = count === maxValue;
-
-  const handleIncrementCount = () => {
-    setCount((count) => count + 1);
-  };
-
-  const handleResetCount = () => {
-    setCount(startValue);
-  };
+  const handleChangeIsSetupping = () => onSetupping(true);
+  const handleIncrementCount = () => onIncrement();
+  const handleResetCount = () => onReset(startValue);
 
   return (
     <div className="counter">
       <div className="counter-table">
-        <span className={isCounterEqualsMaxValue ? "error" : ""}>{count}</span>
+        <span className={isCounterEqualsMaxValue ? "error" : ""}>
+          {counter}
+        </span>
       </div>
       <div className="buttons">
         <Button
@@ -37,7 +40,7 @@ export default function Counter({
           inc
         </Button>
         <Button onClick={handleResetCount}>reset</Button>
-        <Button onClick={onSetupping}>set</Button>
+        <Button onClick={handleChangeIsSetupping}>set</Button>
       </div>
     </div>
   );
